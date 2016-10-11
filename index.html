@@ -14,8 +14,15 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 
     <div class="container">
         <p>This is the first paragraph in the body of your new HTML file!</p>
+
+        <div class="main-container">
+            <div data-model="questions" data-repeat-as="question">
+                <p>{{question.title}}</p>
+            </div>
+        </div>
     </div>
 
+    <script src="/bower_components/traceur-runtime/traceur-runtime.js"></script>
     <script src="bower_components/jquery/dist/jquery.min.js"></script>
     <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="bower_components/less/dist/less.min.js"></script>
