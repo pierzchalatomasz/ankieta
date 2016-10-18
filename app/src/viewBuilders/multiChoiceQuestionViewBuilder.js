@@ -1,4 +1,5 @@
 import data from '../data/multiChoiceQuestion';
+import validate from '../utils/validate';
 
 var save = () => {
     var values = [];
@@ -35,6 +36,10 @@ var answersBuilder = function (answers) {
 };
 
 var readSavedState = ({ inputs }) => {
+    if (!localStorage.multiChoiceQuestion) {
+        return;
+    }
+
     var answers = localStorage.multiChoiceQuestion.split(',');
     answers.forEach(function (answer) {
         answer = parseInt(answer);
@@ -51,7 +56,7 @@ export default function QuestionViewBuilder(routeParams) {
             <h3>The question is: ${questionObj.question}</h3>
             ${answersBuilder(questionObj.answers)}
             <a href="#/single-choice-question">Prev</a>
-            <a href="#/summary">Summary</a>
+            <a class="summary">Summary</a>
         </div>
     `;
 
@@ -60,4 +65,6 @@ export default function QuestionViewBuilder(routeParams) {
     var inputs = document.querySelectorAll('input[name=multi-choice-question]');
     addChangeListener({ inputs });
     readSavedState({ inputs });
+
+    validate({ element: document.querySelector('.summary'), inputs, route: '/summary' });
 }

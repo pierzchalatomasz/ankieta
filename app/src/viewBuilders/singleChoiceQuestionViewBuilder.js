@@ -1,4 +1,5 @@
 import data from '../data/singleChoiceQuestion';
+import validate from '../utils/validate';
 
 var answersBuilder = function (answers) {
     var template = '';
@@ -22,6 +23,10 @@ var addChangeListener = ({ inputs }) => {
 };
 
 var readSavedState = ({ inputs }) => {
+    if (!localStorage.singleChoiceQuestion) {
+        return;
+    }
+
     var answer = parseInt(localStorage.singleChoiceQuestion);
     inputs[answer].checked = true;
 };
@@ -34,13 +39,15 @@ export default function QuestionViewBuilder(routeParams) {
         <div class="question">
             <h3>The question is: ${questionObj.question}</h3>
             ${answersBuilder(questionObj.answers)}
-            <a href="#/multi-choice-question">Next</a>
+            <a class="next">Next</a>
         </div>
     `;
 
     mainContainer.innerHTML = template;
-    
+
     var inputs = document.querySelectorAll('input[name=single-choice-question]');
     addChangeListener({ inputs });
     readSavedState({ inputs });
+
+    validate({ element: document.querySelector('.next'), inputs, route: '/multi-choice-question' });
 }

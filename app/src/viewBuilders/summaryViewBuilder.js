@@ -1,8 +1,14 @@
 import singleChoiceQuestion from '../data/singleChoiceQuestion';
 import multiChoiceQuestion from '../data/multiChoiceQuestion';
 
-var answersBuilder = (i) => {
-    return `<li>${multiChoiceQuestion.answers[i]}</li>`;
+var answersBuilder = (answers) => {
+    var template = '';
+
+    answers.forEach(function(i) {
+        template += `<li>${i + 1}. ${multiChoiceQuestion.answers[i]}</li>`;    
+    }, this);
+    
+    return template;
 };
 
 export default function () {
@@ -13,16 +19,16 @@ export default function () {
     var template = `
         <div class="summary">
             <h3>Podsumowanie</h3>
-            <h4>1. ${singleChoiceQuestion.question}</h4>
+            <h4>Pytanie 1: ${singleChoiceQuestion.question}</h4>
             <p>Twoja odpowiedź: 
                 <ul>
-                    <li>${singleChoiceQuestion.answers[singleChoiceAnswer]}</li>
+                    <li>${singleChoiceAnswer + 1}. ${singleChoiceQuestion.answers[singleChoiceAnswer]}</li>
                 </ul>
             </p>
-            <h4>2. ${multiChoiceQuestion.question}</h4>
+            <h4>Pytanie 2: ${multiChoiceQuestion.question}</h4>
             <p>Twoje odpowiedzi: 
                 <ul>
-                    ${multiChoiceAnswers.map(x => answersBuilder(x))}
+                    ${answersBuilder(multiChoiceAnswers)}
                 </ul>
             </p>
         </div>

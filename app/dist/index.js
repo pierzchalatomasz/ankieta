@@ -185,9 +185,11 @@
 
 	module.exports = function() {
 	  "use strict";
-	  var $__1 = this;
-	  var $___46__46__47_data_47_singleChoiceQuestion__;
+	  var $__2 = this;
+	  var $___46__46__47_data_47_singleChoiceQuestion__,
+	      $___46__46__47_utils_47_validate__;
 	  var data = ($___46__46__47_data_47_singleChoiceQuestion__ = __webpack_require__(4), $___46__46__47_data_47_singleChoiceQuestion__ && $___46__46__47_data_47_singleChoiceQuestion__.__esModule && $___46__46__47_data_47_singleChoiceQuestion__ || {default: $___46__46__47_data_47_singleChoiceQuestion__}).default;
+	  var validate = ($___46__46__47_utils_47_validate__ = __webpack_require__(9), $___46__46__47_utils_47_validate__ && $___46__46__47_utils_47_validate__.__esModule && $___46__46__47_utils_47_validate__ || {default: $___46__46__47_utils_47_validate__}).default;
 	  var answersBuilder = function(answers) {
 	    var template = '';
 	    answers.forEach(function(answer, index) {
@@ -195,27 +197,35 @@
 	    }, this);
 	    return template;
 	  };
-	  var addChangeListener = (function($__2) {
-	    var inputs = $__2.inputs;
+	  var addChangeListener = (function($__3) {
+	    var inputs = $__3.inputs;
 	    inputs.forEach(function(input) {
 	      input.onchange = (function() {
 	        return localStorage.singleChoiceQuestion = input.value;
 	      });
-	    }, $__1);
+	    }, $__2);
 	  });
-	  var readSavedState = (function($__2) {
-	    var inputs = $__2.inputs;
+	  var readSavedState = (function($__3) {
+	    var inputs = $__3.inputs;
+	    if (!localStorage.singleChoiceQuestion) {
+	      return;
+	    }
 	    var answer = parseInt(localStorage.singleChoiceQuestion);
 	    inputs[answer].checked = true;
 	  });
 	  function QuestionViewBuilder(routeParams) {
 	    var mainContainer = document.querySelector('.main-container');
 	    var questionObj = data;
-	    var template = ("\n        <div class=\"question\">\n            <h3>The question is: " + questionObj.question + "</h3>\n            " + answersBuilder(questionObj.answers) + "\n            <a href=\"#/multi-choice-question\">Next</a>\n        </div>\n    ");
+	    var template = ("\n        <div class=\"question\">\n            <h3>The question is: " + questionObj.question + "</h3>\n            " + answersBuilder(questionObj.answers) + "\n            <a class=\"next\">Next</a>\n        </div>\n    ");
 	    mainContainer.innerHTML = template;
 	    var inputs = document.querySelectorAll('input[name=single-choice-question]');
 	    addChangeListener({inputs: inputs});
 	    readSavedState({inputs: inputs});
+	    validate({
+	      element: document.querySelector('.next'),
+	      inputs: inputs,
+	      route: '/multi-choice-question'
+	    });
 	  }
 	  var $__default = QuestionViewBuilder;
 	  return {
@@ -251,9 +261,11 @@
 
 	module.exports = function() {
 	  "use strict";
-	  var $__1 = this;
-	  var $___46__46__47_data_47_multiChoiceQuestion__;
+	  var $__2 = this;
+	  var $___46__46__47_data_47_multiChoiceQuestion__,
+	      $___46__46__47_utils_47_validate__;
 	  var data = ($___46__46__47_data_47_multiChoiceQuestion__ = __webpack_require__(6), $___46__46__47_data_47_multiChoiceQuestion__ && $___46__46__47_data_47_multiChoiceQuestion__.__esModule && $___46__46__47_data_47_multiChoiceQuestion__ || {default: $___46__46__47_data_47_multiChoiceQuestion__}).default;
+	  var validate = ($___46__46__47_utils_47_validate__ = __webpack_require__(9), $___46__46__47_utils_47_validate__ && $___46__46__47_utils_47_validate__.__esModule && $___46__46__47_utils_47_validate__ || {default: $___46__46__47_utils_47_validate__}).default;
 	  var save = (function() {
 	    var values = [];
 	    var inputs = document.querySelectorAll('input[name=multi-choice-question]');
@@ -261,14 +273,14 @@
 	      if (input.checked) {
 	        values.push(input.value);
 	      }
-	    }, $__1);
+	    }, $__2);
 	    localStorage.multiChoiceQuestion = values;
 	  });
-	  var addChangeListener = (function($__2) {
-	    var inputs = $__2.inputs;
+	  var addChangeListener = (function($__3) {
+	    var inputs = $__3.inputs;
 	    inputs.forEach(function(input) {
 	      input.onchange = save;
-	    }, $__1);
+	    }, $__2);
 	  });
 	  var answersBuilder = function(answers) {
 	    var template = '';
@@ -277,22 +289,30 @@
 	    }, this);
 	    return template;
 	  };
-	  var readSavedState = (function($__2) {
-	    var inputs = $__2.inputs;
+	  var readSavedState = (function($__3) {
+	    var inputs = $__3.inputs;
+	    if (!localStorage.multiChoiceQuestion) {
+	      return;
+	    }
 	    var answers = localStorage.multiChoiceQuestion.split(',');
 	    answers.forEach(function(answer) {
 	      answer = parseInt(answer);
 	      inputs[answer].checked = true;
-	    }, $__1);
+	    }, $__2);
 	  });
 	  function QuestionViewBuilder(routeParams) {
 	    var mainContainer = document.querySelector('.main-container');
 	    var questionObj = data;
-	    var template = ("\n        <div class=\"question\">\n            <h3>The question is: " + questionObj.question + "</h3>\n            " + answersBuilder(questionObj.answers) + "\n            <a href=\"#/single-choice-question\">Prev</a>\n            <a href=\"#/summary\">Summary</a>\n        </div>\n    ");
+	    var template = ("\n        <div class=\"question\">\n            <h3>The question is: " + questionObj.question + "</h3>\n            " + answersBuilder(questionObj.answers) + "\n            <a href=\"#/single-choice-question\">Prev</a>\n            <a class=\"summary\">Summary</a>\n        </div>\n    ");
 	    mainContainer.innerHTML = template;
 	    var inputs = document.querySelectorAll('input[name=multi-choice-question]');
 	    addChangeListener({inputs: inputs});
 	    readSavedState({inputs: inputs});
+	    validate({
+	      element: document.querySelector('.summary'),
+	      inputs: inputs,
+	      route: '/summary'
+	    });
 	  }
 	  var $__default = QuestionViewBuilder;
 	  return {
@@ -344,6 +364,42 @@
 /* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
+	module.exports = function() {
+	  "use strict";
+	  var $__2 = this;
+	  var $___46__46__47_data_47_singleChoiceQuestion__,
+	      $___46__46__47_data_47_multiChoiceQuestion__;
+	  var singleChoiceQuestion = ($___46__46__47_data_47_singleChoiceQuestion__ = __webpack_require__(4), $___46__46__47_data_47_singleChoiceQuestion__ && $___46__46__47_data_47_singleChoiceQuestion__.__esModule && $___46__46__47_data_47_singleChoiceQuestion__ || {default: $___46__46__47_data_47_singleChoiceQuestion__}).default;
+	  var multiChoiceQuestion = ($___46__46__47_data_47_multiChoiceQuestion__ = __webpack_require__(6), $___46__46__47_data_47_multiChoiceQuestion__ && $___46__46__47_data_47_multiChoiceQuestion__.__esModule && $___46__46__47_data_47_multiChoiceQuestion__ || {default: $___46__46__47_data_47_multiChoiceQuestion__}).default;
+	  var answersBuilder = (function(answers) {
+	    var template = '';
+	    answers.forEach(function(i) {
+	      template += ("<li>" + (i + 1) + ". " + multiChoiceQuestion.answers[i] + "</li>");
+	    }, $__2);
+	    return template;
+	  });
+	  var $__default = function() {
+	    var mainContainer = document.querySelector('.main-container');
+	    var singleChoiceAnswer = parseInt(localStorage.singleChoiceQuestion);
+	    var multiChoiceAnswers = localStorage.multiChoiceQuestion.split(',').map((function(x) {
+	      return parseInt(x);
+	    }));
+	    var template = ("\n        <div class=\"summary\">\n            <h3>Podsumowanie</h3>\n            <h4>Pytanie 1: " + singleChoiceQuestion.question + "</h4>\n            <p>Twoja odpowiedź: \n                <ul>\n                    <li>" + (singleChoiceAnswer + 1) + ". " + singleChoiceQuestion.answers[singleChoiceAnswer] + "</li>\n                </ul>\n            </p>\n            <h4>Pytanie 2: " + multiChoiceQuestion.question + "</h4>\n            <p>Twoje odpowiedzi: \n                <ul>\n                    " + answersBuilder(multiChoiceAnswers) + "\n                </ul>\n            </p>\n        </div>\n    ");
+	    mainContainer.innerHTML = template;
+	  };
+	  return {
+	    get default() {
+	      return $__default;
+	    },
+	    __esModule: true
+	  };
+	}.call(Reflect.global);
+
+
+/***/ },
+/* 9 */
+/***/ function(module, exports) {
+
 	"use strict";
 	Object.defineProperties(exports, {
 	  default: {get: function() {
@@ -351,24 +407,23 @@
 	    }},
 	  __esModule: {value: true}
 	});
-	var $___46__46__47_data_47_singleChoiceQuestion__,
-	    $___46__46__47_data_47_multiChoiceQuestion__;
-	var singleChoiceQuestion = ($___46__46__47_data_47_singleChoiceQuestion__ = __webpack_require__(4), $___46__46__47_data_47_singleChoiceQuestion__ && $___46__46__47_data_47_singleChoiceQuestion__.__esModule && $___46__46__47_data_47_singleChoiceQuestion__ || {default: $___46__46__47_data_47_singleChoiceQuestion__}).default;
-	var multiChoiceQuestion = ($___46__46__47_data_47_multiChoiceQuestion__ = __webpack_require__(6), $___46__46__47_data_47_multiChoiceQuestion__ && $___46__46__47_data_47_multiChoiceQuestion__.__esModule && $___46__46__47_data_47_multiChoiceQuestion__ || {default: $___46__46__47_data_47_multiChoiceQuestion__}).default;
-	var answersBuilder = (function(i) {
-	  return ("<li>" + multiChoiceQuestion.answers[i] + "</li>");
+	var $__default = (function($__0) {
+	  var $__1 = $__0,
+	      element = $__1.element,
+	      inputs = $__1.inputs,
+	      route = $__1.route;
+	  element.onclick = (function(e) {
+	    inputs = Array.prototype.slice.call(inputs);
+	    var checked = inputs.filter((function(x) {
+	      return x.checked;
+	    }));
+	    if (checked.length) {
+	      window.location.hash = route;
+	      return;
+	    }
+	    alert('Nie odpowiedziałeś!');
+	  });
 	});
-	var $__default = function() {
-	  var mainContainer = document.querySelector('.main-container');
-	  var singleChoiceAnswer = parseInt(localStorage.singleChoiceQuestion);
-	  var multiChoiceAnswers = localStorage.multiChoiceQuestion.split(',').map((function(x) {
-	    return parseInt(x);
-	  }));
-	  var template = ("\n        <div class=\"summary\">\n            <h3>Podsumowanie</h3>\n            <h4>1. " + singleChoiceQuestion.question + "</h4>\n            <p>Twoja odpowiedź: \n                <ul>\n                    <li>" + singleChoiceQuestion.answers[singleChoiceAnswer] + "</li>\n                </ul>\n            </p>\n            <h4>2. " + multiChoiceQuestion.question + "</h4>\n            <p>Twoje odpowiedzi: \n                <ul>\n                    " + multiChoiceAnswers.map((function(x) {
-	    return answersBuilder(x);
-	  })) + "\n                </ul>\n            </p>\n        </div>\n    ");
-	  mainContainer.innerHTML = template;
-	};
 
 
 /***/ }
