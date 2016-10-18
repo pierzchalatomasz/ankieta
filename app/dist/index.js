@@ -47,19 +47,29 @@
 	"use strict";
 	var $__router__,
 	    $__data__,
-	    $__viewBuilders_47_questionViewBuilder__,
-	    $__viewBuilders_47_welcomeViewBuilder__;
+	    $__viewBuilders_47_singleChoiceQuestionViewBuilder__,
+	    $__viewBuilders_47_multiChoiceQuestionViewBuilder__,
+	    $__viewBuilders_47_welcomeViewBuilder__,
+	    $__viewBuilders_47_summaryViewBuilder__;
 	var Router = ($__router__ = __webpack_require__(1), $__router__ && $__router__.__esModule && $__router__ || {default: $__router__}).default;
 	var data = ($__data__ = __webpack_require__(2), $__data__ && $__data__.__esModule && $__data__ || {default: $__data__}).default;
-	var questionViewBuilder = ($__viewBuilders_47_questionViewBuilder__ = __webpack_require__(3), $__viewBuilders_47_questionViewBuilder__ && $__viewBuilders_47_questionViewBuilder__.__esModule && $__viewBuilders_47_questionViewBuilder__ || {default: $__viewBuilders_47_questionViewBuilder__}).default;
-	var welcomeViewBuilder = ($__viewBuilders_47_welcomeViewBuilder__ = __webpack_require__(4), $__viewBuilders_47_welcomeViewBuilder__ && $__viewBuilders_47_welcomeViewBuilder__.__esModule && $__viewBuilders_47_welcomeViewBuilder__ || {default: $__viewBuilders_47_welcomeViewBuilder__}).default;
+	var singleChoiceQuestionViewBuilder = ($__viewBuilders_47_singleChoiceQuestionViewBuilder__ = __webpack_require__(3), $__viewBuilders_47_singleChoiceQuestionViewBuilder__ && $__viewBuilders_47_singleChoiceQuestionViewBuilder__.__esModule && $__viewBuilders_47_singleChoiceQuestionViewBuilder__ || {default: $__viewBuilders_47_singleChoiceQuestionViewBuilder__}).default;
+	var multiChoiceQuestionViewBuilder = ($__viewBuilders_47_multiChoiceQuestionViewBuilder__ = __webpack_require__(5), $__viewBuilders_47_multiChoiceQuestionViewBuilder__ && $__viewBuilders_47_multiChoiceQuestionViewBuilder__.__esModule && $__viewBuilders_47_multiChoiceQuestionViewBuilder__ || {default: $__viewBuilders_47_multiChoiceQuestionViewBuilder__}).default;
+	var welcomeViewBuilder = ($__viewBuilders_47_welcomeViewBuilder__ = __webpack_require__(7), $__viewBuilders_47_welcomeViewBuilder__ && $__viewBuilders_47_welcomeViewBuilder__.__esModule && $__viewBuilders_47_welcomeViewBuilder__ || {default: $__viewBuilders_47_welcomeViewBuilder__}).default;
+	var summaryViewBuilder = ($__viewBuilders_47_summaryViewBuilder__ = __webpack_require__(8), $__viewBuilders_47_summaryViewBuilder__ && $__viewBuilders_47_summaryViewBuilder__.__esModule && $__viewBuilders_47_summaryViewBuilder__ || {default: $__viewBuilders_47_summaryViewBuilder__}).default;
 	Router.route({
-	  route: 'question/:id',
-	  handler: questionViewBuilder
+	  route: 'single-choice-question/',
+	  handler: singleChoiceQuestionViewBuilder
 	}).route({
-	  route: '',
+	  route: 'multi-choice-question/',
+	  handler: multiChoiceQuestionViewBuilder
+	}).route({
+	  route: '/',
 	  handler: welcomeViewBuilder
-	}).route({route: 'thankyou'});
+	}).route({
+	  route: 'summary/',
+	  handler: summaryViewBuilder
+	});
 
 
 /***/ },
@@ -124,7 +134,6 @@
 	              params[paramName] = path[i];
 	            }
 	          }
-	          console.log(params);
 	          if (handler) {
 	            handler(params);
 	          }
@@ -174,36 +183,48 @@
 /* 3 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
-	Object.defineProperties(exports, {
-	  default: {get: function() {
-	      return $__default;
-	    }},
-	  __esModule: {value: true}
-	});
-	var $___46__46__47_data__;
-	var data = ($___46__46__47_data__ = __webpack_require__(2), $___46__46__47_data__ && $___46__46__47_data__.__esModule && $___46__46__47_data__ || {default: $___46__46__47_data__}).default;
-	var answerBuilder = function(answer, index) {
-	  return ("\n        <p>\n            <input type=\"radio\" name=\"question\">\n            <label>" + (index + 1) + ". " + answer + "</label>\n        </p>\n    ");
-	};
-	function QuestionViewBuilder(routeParams) {
-	  var mainContainer = document.querySelector('.main-container');
-	  var questionId = parseInt(routeParams.id);
-	  var questionObj = data[questionId];
-	  var navBuilder = function() {
-	    var output = '';
-	    if (questionId > 0)
-	      output += ("<a href=\"#/question/" + (questionId - 1) + "\">Prev</a>");
-	    if (questionId < data.length - 1)
-	      output += ("<a href=\"#/question/" + (questionId + 1) + "\">Next</a>");
-	    return output;
+	module.exports = function() {
+	  "use strict";
+	  var $__1 = this;
+	  var $___46__46__47_data_47_singleChoiceQuestion__;
+	  var data = ($___46__46__47_data_47_singleChoiceQuestion__ = __webpack_require__(4), $___46__46__47_data_47_singleChoiceQuestion__ && $___46__46__47_data_47_singleChoiceQuestion__.__esModule && $___46__46__47_data_47_singleChoiceQuestion__ || {default: $___46__46__47_data_47_singleChoiceQuestion__}).default;
+	  var answersBuilder = function(answers) {
+	    var template = '';
+	    answers.forEach(function(answer, index) {
+	      template += ("\n            <p>\n                <input type=\"radio\" name=\"single-choice-question\" value=\"" + index + "\">\n                <label>" + (index + 1) + ". " + answer + "</label>\n            </p>\n        ");
+	    }, this);
+	    return template;
 	  };
-	  var template = ("\n        <div class=\"question\">\n            <h3>The question is: " + questionObj.question + "</h3>\n            " + questionObj.answers.map((function(x, index) {
-	    return answerBuilder(x, index);
-	  })) + "\n            " + navBuilder() + "\n        </div>\n    ");
-	  mainContainer.innerHTML = template;
-	}
-	var $__default = QuestionViewBuilder;
+	  var addChangeListener = (function($__2) {
+	    var inputs = $__2.inputs;
+	    inputs.forEach(function(input) {
+	      input.onchange = (function() {
+	        return localStorage.singleChoiceQuestion = input.value;
+	      });
+	    }, $__1);
+	  });
+	  var readSavedState = (function($__2) {
+	    var inputs = $__2.inputs;
+	    var answer = parseInt(localStorage.singleChoiceQuestion);
+	    inputs[answer].checked = true;
+	  });
+	  function QuestionViewBuilder(routeParams) {
+	    var mainContainer = document.querySelector('.main-container');
+	    var questionObj = data;
+	    var template = ("\n        <div class=\"question\">\n            <h3>The question is: " + questionObj.question + "</h3>\n            " + answersBuilder(questionObj.answers) + "\n            <a href=\"#/multi-choice-question\">Next</a>\n        </div>\n    ");
+	    mainContainer.innerHTML = template;
+	    var inputs = document.querySelectorAll('input[name=single-choice-question]');
+	    addChangeListener({inputs: inputs});
+	    readSavedState({inputs: inputs});
+	  }
+	  var $__default = QuestionViewBuilder;
+	  return {
+	    get default() {
+	      return $__default;
+	    },
+	    __esModule: true
+	  };
+	}.call(Reflect.global);
 
 
 /***/ },
@@ -217,9 +238,135 @@
 	    }},
 	  __esModule: {value: true}
 	});
+	var $__default = {
+	  question: 'Lorem ipsum dolor sit amet?',
+	  answers: ['consectetur adipiscing elit', 'sed do eiusmod tempor incididunt ut labore', 'et dolore magna aliqua'],
+	  correct: 1
+	};
+
+
+/***/ },
+/* 5 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = function() {
+	  "use strict";
+	  var $__1 = this;
+	  var $___46__46__47_data_47_multiChoiceQuestion__;
+	  var data = ($___46__46__47_data_47_multiChoiceQuestion__ = __webpack_require__(6), $___46__46__47_data_47_multiChoiceQuestion__ && $___46__46__47_data_47_multiChoiceQuestion__.__esModule && $___46__46__47_data_47_multiChoiceQuestion__ || {default: $___46__46__47_data_47_multiChoiceQuestion__}).default;
+	  var save = (function() {
+	    var values = [];
+	    var inputs = document.querySelectorAll('input[name=multi-choice-question]');
+	    inputs.forEach(function(input) {
+	      if (input.checked) {
+	        values.push(input.value);
+	      }
+	    }, $__1);
+	    localStorage.multiChoiceQuestion = values;
+	  });
+	  var addChangeListener = (function($__2) {
+	    var inputs = $__2.inputs;
+	    inputs.forEach(function(input) {
+	      input.onchange = save;
+	    }, $__1);
+	  });
+	  var answersBuilder = function(answers) {
+	    var template = '';
+	    answers.forEach(function(answer, index) {
+	      template += ("\n            <p>\n                <input type=\"checkbox\" name=\"multi-choice-question\" value=\"" + index + "\" onchange=\"save(" + index + ")\">\n                <label>" + (index + 1) + ". " + answer + "</label>\n            </p>\n        ");
+	    }, this);
+	    return template;
+	  };
+	  var readSavedState = (function($__2) {
+	    var inputs = $__2.inputs;
+	    var answers = localStorage.multiChoiceQuestion.split(',');
+	    answers.forEach(function(answer) {
+	      answer = parseInt(answer);
+	      inputs[answer].checked = true;
+	    }, $__1);
+	  });
+	  function QuestionViewBuilder(routeParams) {
+	    var mainContainer = document.querySelector('.main-container');
+	    var questionObj = data;
+	    var template = ("\n        <div class=\"question\">\n            <h3>The question is: " + questionObj.question + "</h3>\n            " + answersBuilder(questionObj.answers) + "\n            <a href=\"#/single-choice-question\">Prev</a>\n            <a href=\"#/summary\">Summary</a>\n        </div>\n    ");
+	    mainContainer.innerHTML = template;
+	    var inputs = document.querySelectorAll('input[name=multi-choice-question]');
+	    addChangeListener({inputs: inputs});
+	    readSavedState({inputs: inputs});
+	  }
+	  var $__default = QuestionViewBuilder;
+	  return {
+	    get default() {
+	      return $__default;
+	    },
+	    __esModule: true
+	  };
+	}.call(Reflect.global);
+
+
+/***/ },
+/* 6 */
+/***/ function(module, exports) {
+
+	"use strict";
+	Object.defineProperties(exports, {
+	  default: {get: function() {
+	      return $__default;
+	    }},
+	  __esModule: {value: true}
+	});
+	var $__default = {
+	  question: 'Duis aute irure dolor in reprehenderit?',
+	  answers: ['consectetur adipiscing elit', 'sed do eiusmod tempor incididunt ut labore', 'et dolore magna aliqua'],
+	  correct: [0, 1]
+	};
+
+
+/***/ },
+/* 7 */
+/***/ function(module, exports) {
+
+	"use strict";
+	Object.defineProperties(exports, {
+	  default: {get: function() {
+	      return $__default;
+	    }},
+	  __esModule: {value: true}
+	});
 	var $__default = function() {
 	  var mainContainer = document.querySelector('.main-container');
-	  var template = "\n        <div class=\"welcome\">\n            <h3>Witamy w ankiecie</h3>\n            <a href=\"#/question/0\">Rozpocznij ankietę</a>\n        </div>\n    ";
+	  var template = "\n        <div class=\"welcome\">\n            <h3>Witamy w ankiecie</h3>\n            <a href=\"#/single-choice-question\">Rozpocznij ankietę</a>\n        </div>\n    ";
+	  mainContainer.innerHTML = template;
+	};
+
+
+/***/ },
+/* 8 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	Object.defineProperties(exports, {
+	  default: {get: function() {
+	      return $__default;
+	    }},
+	  __esModule: {value: true}
+	});
+	var $___46__46__47_data_47_singleChoiceQuestion__,
+	    $___46__46__47_data_47_multiChoiceQuestion__;
+	var singleChoiceQuestion = ($___46__46__47_data_47_singleChoiceQuestion__ = __webpack_require__(4), $___46__46__47_data_47_singleChoiceQuestion__ && $___46__46__47_data_47_singleChoiceQuestion__.__esModule && $___46__46__47_data_47_singleChoiceQuestion__ || {default: $___46__46__47_data_47_singleChoiceQuestion__}).default;
+	var multiChoiceQuestion = ($___46__46__47_data_47_multiChoiceQuestion__ = __webpack_require__(6), $___46__46__47_data_47_multiChoiceQuestion__ && $___46__46__47_data_47_multiChoiceQuestion__.__esModule && $___46__46__47_data_47_multiChoiceQuestion__ || {default: $___46__46__47_data_47_multiChoiceQuestion__}).default;
+	var answersBuilder = (function(i) {
+	  return ("<li>" + multiChoiceQuestion.answers[i] + "</li>");
+	});
+	var $__default = function() {
+	  var mainContainer = document.querySelector('.main-container');
+	  var singleChoiceAnswer = parseInt(localStorage.singleChoiceQuestion);
+	  var multiChoiceAnswers = localStorage.multiChoiceQuestion.split(',').map((function(x) {
+	    return parseInt(x);
+	  }));
+	  var template = ("\n        <div class=\"summary\">\n            <h3>Podsumowanie</h3>\n            <h4>1. " + singleChoiceQuestion.question + "</h4>\n            <p>Twoja odpowiedź: \n                <ul>\n                    <li>" + singleChoiceQuestion.answers[singleChoiceAnswer] + "</li>\n                </ul>\n            </p>\n            <h4>2. " + multiChoiceQuestion.question + "</h4>\n            <p>Twoje odpowiedzi: \n                <ul>\n                    " + multiChoiceAnswers.map((function(x) {
+	    return answersBuilder(x);
+	  })) + "\n                </ul>\n            </p>\n        </div>\n    ");
 	  mainContainer.innerHTML = template;
 	};
 

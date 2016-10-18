@@ -1,9 +1,9 @@
 import data from '../data';
 
-var answerBuilder = function (answer, index) {
+var answerBuilder = function ({ answer, index, questionId }) {
     return `
         <p>
-            <input type="radio" name="question">
+            <input type="radio" name="question" value="${index}">
             <label>${index + 1}. ${answer}</label>
         </p>
     `;
@@ -24,7 +24,7 @@ export default function QuestionViewBuilder(routeParams) {
     var template = `
         <div class="question">
             <h3>The question is: ${questionObj.question}</h3>
-            ${questionObj.answers.map((x, index) => answerBuilder(x, index))}
+            ${questionObj.answers.map((answer, index) => answerBuilder({answer, index, questionId}))}
             ${navBuilder()}
         </div>
     `;

@@ -55,8 +55,6 @@ var Router = {
                     }
                 }
 
-                console.log(params);
-                
                 if (handler) {
                     handler(params);
                 }

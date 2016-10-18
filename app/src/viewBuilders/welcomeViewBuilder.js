@@ -4,7 +4,7 @@ export default function () {
     var template = `
         <div class="welcome">
             <h3>Witamy w ankiecie</h3>
-            <a href="#/question/0">Rozpocznij ankietę</a>
+            <a href="#/single-choice-question">Rozpocznij ankietę</a>
         </div>
     `;
 

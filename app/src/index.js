@@ -1,16 +1,23 @@
 import Router from './router';
 import data from './data';
-import questionViewBuilder from './viewBuilders/questionViewBuilder';
+import singleChoiceQuestionViewBuilder from './viewBuilders/singleChoiceQuestionViewBuilder';
+import multiChoiceQuestionViewBuilder from './viewBuilders/multiChoiceQuestionViewBuilder';
 import welcomeViewBuilder from './viewBuilders/welcomeViewBuilder';
+import summaryViewBuilder from './viewBuilders/summaryViewBuilder';
 
 Router.route({
-    route: 'question/:id',
-    handler: questionViewBuilder
+    route: 'single-choice-question/',
+    handler: singleChoiceQuestionViewBuilder
 })
 .route({
-    route: '',
+    route: 'multi-choice-question/',
+    handler: multiChoiceQuestionViewBuilder
+})
+.route({
+    route: '/',
     handler: welcomeViewBuilder
 })
 .route({
-    route: 'thankyou'
-})
+    route: 'summary/',
+    handler: summaryViewBuilder
+});
