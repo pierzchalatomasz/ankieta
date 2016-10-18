@@ -1,7 +1,6 @@
 {
   "name": "ankieta",
   "version": "1.0.0",
-  "description": "",
   "main": "app/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -9,6 +8,17 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "live-server": "^1.1.0"
-  }
+    "live-server": "^1.1.0",
+    "webpack-traceur-loader": "^0.3.0"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pierzchalatomasz/ankieta.git"
+  },
+  "bugs": {
+    "url": "https://github.com/pierzchalatomasz/ankieta/issues"
+  },
+  "homepage": "https://github.com/pierzchalatomasz/ankieta#readme",
+  "description": ""
 }
