@@ -53,10 +53,14 @@ export default function QuestionViewBuilder(routeParams) {
 
     var template = `
         <div class="question">
-            <h3>The question is: ${questionObj.question}</h3>
-            ${answersBuilder(questionObj.answers)}
-            <a href="#/single-choice-question">Prev</a>
-            <a class="summary">Summary</a>
+            <h3>${questionObj.question}</h3>
+            <div class="answers">
+                ${answersBuilder(questionObj.answers)}
+            </div>
+            <div class="buttons-container">
+                <a class="button" href="#/single-choice-question">Wstecz</a>
+                <a class="button summary">Podsumowanie</a>
+            </div>
         </div>
     `;
 

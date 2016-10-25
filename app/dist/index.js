@@ -54,9 +54,9 @@
 	var Router = ($__router__ = __webpack_require__(1), $__router__ && $__router__.__esModule && $__router__ || {default: $__router__}).default;
 	var data = ($__data__ = __webpack_require__(2), $__data__ && $__data__.__esModule && $__data__ || {default: $__data__}).default;
 	var singleChoiceQuestionViewBuilder = ($__viewBuilders_47_singleChoiceQuestionViewBuilder__ = __webpack_require__(3), $__viewBuilders_47_singleChoiceQuestionViewBuilder__ && $__viewBuilders_47_singleChoiceQuestionViewBuilder__.__esModule && $__viewBuilders_47_singleChoiceQuestionViewBuilder__ || {default: $__viewBuilders_47_singleChoiceQuestionViewBuilder__}).default;
-	var multiChoiceQuestionViewBuilder = ($__viewBuilders_47_multiChoiceQuestionViewBuilder__ = __webpack_require__(5), $__viewBuilders_47_multiChoiceQuestionViewBuilder__ && $__viewBuilders_47_multiChoiceQuestionViewBuilder__.__esModule && $__viewBuilders_47_multiChoiceQuestionViewBuilder__ || {default: $__viewBuilders_47_multiChoiceQuestionViewBuilder__}).default;
-	var welcomeViewBuilder = ($__viewBuilders_47_welcomeViewBuilder__ = __webpack_require__(7), $__viewBuilders_47_welcomeViewBuilder__ && $__viewBuilders_47_welcomeViewBuilder__.__esModule && $__viewBuilders_47_welcomeViewBuilder__ || {default: $__viewBuilders_47_welcomeViewBuilder__}).default;
-	var summaryViewBuilder = ($__viewBuilders_47_summaryViewBuilder__ = __webpack_require__(8), $__viewBuilders_47_summaryViewBuilder__ && $__viewBuilders_47_summaryViewBuilder__.__esModule && $__viewBuilders_47_summaryViewBuilder__ || {default: $__viewBuilders_47_summaryViewBuilder__}).default;
+	var multiChoiceQuestionViewBuilder = ($__viewBuilders_47_multiChoiceQuestionViewBuilder__ = __webpack_require__(6), $__viewBuilders_47_multiChoiceQuestionViewBuilder__ && $__viewBuilders_47_multiChoiceQuestionViewBuilder__.__esModule && $__viewBuilders_47_multiChoiceQuestionViewBuilder__ || {default: $__viewBuilders_47_multiChoiceQuestionViewBuilder__}).default;
+	var welcomeViewBuilder = ($__viewBuilders_47_welcomeViewBuilder__ = __webpack_require__(8), $__viewBuilders_47_welcomeViewBuilder__ && $__viewBuilders_47_welcomeViewBuilder__.__esModule && $__viewBuilders_47_welcomeViewBuilder__ || {default: $__viewBuilders_47_welcomeViewBuilder__}).default;
+	var summaryViewBuilder = ($__viewBuilders_47_summaryViewBuilder__ = __webpack_require__(9), $__viewBuilders_47_summaryViewBuilder__ && $__viewBuilders_47_summaryViewBuilder__.__esModule && $__viewBuilders_47_summaryViewBuilder__ || {default: $__viewBuilders_47_summaryViewBuilder__}).default;
 	Router.route({
 	  route: 'single-choice-question/',
 	  handler: singleChoiceQuestionViewBuilder
@@ -189,34 +189,43 @@
 	  var $___46__46__47_data_47_singleChoiceQuestion__,
 	      $___46__46__47_utils_47_validate__;
 	  var data = ($___46__46__47_data_47_singleChoiceQuestion__ = __webpack_require__(4), $___46__46__47_data_47_singleChoiceQuestion__ && $___46__46__47_data_47_singleChoiceQuestion__.__esModule && $___46__46__47_data_47_singleChoiceQuestion__ || {default: $___46__46__47_data_47_singleChoiceQuestion__}).default;
-	  var validate = ($___46__46__47_utils_47_validate__ = __webpack_require__(9), $___46__46__47_utils_47_validate__ && $___46__46__47_utils_47_validate__.__esModule && $___46__46__47_utils_47_validate__ || {default: $___46__46__47_utils_47_validate__}).default;
+	  var validate = ($___46__46__47_utils_47_validate__ = __webpack_require__(5), $___46__46__47_utils_47_validate__ && $___46__46__47_utils_47_validate__.__esModule && $___46__46__47_utils_47_validate__ || {default: $___46__46__47_utils_47_validate__}).default;
 	  var answersBuilder = function(answers) {
 	    var template = '';
 	    answers.forEach(function(answer, index) {
-	      template += ("\n            <p>\n                <input type=\"radio\" name=\"single-choice-question\" value=\"" + index + "\">\n                <label>" + (index + 1) + ". " + answer + "</label>\n            </p>\n        ");
+	      template += ("\n            <div class=\"answer\">\n                <input type=\"radio\" name=\"single-choice-question\" value=\"" + index + "\" id=" + index + ">\n                <label for=\"" + index + "\">" + (index + 1) + ". " + answer + "</label>\n            </div>\n        ");
 	    }, this);
 	    return template;
 	  };
-	  var addChangeListener = (function($__3) {
-	    var inputs = $__3.inputs;
+	  var addChangeListener = (function($__4) {
+	    var inputs = $__4.inputs;
+	    inputs = Array.from(inputs);
 	    inputs.forEach(function(input) {
+	      var $__3 = this;
 	      input.onchange = (function() {
-	        return localStorage.singleChoiceQuestion = input.value;
+	        localStorage.singleChoiceQuestion = input.value;
+	        inputs.forEach(function(input) {
+	          input.parentElement.className = input.parentElement.className.replace('active', '');
+	        }, $__3);
+	        if (input.checked) {
+	          input.parentElement.className += ' active';
+	        }
 	      });
 	    }, $__2);
 	  });
-	  var readSavedState = (function($__3) {
-	    var inputs = $__3.inputs;
-	    if (!localStorage.singleChoiceQuestion) {
+	  var readSavedState = (function($__4) {
+	    var inputs = $__4.inputs;
+	    var answer = parseInt(localStorage.singleChoiceQuestion);
+	    if (isNaN(answer)) {
 	      return;
 	    }
-	    var answer = parseInt(localStorage.singleChoiceQuestion);
 	    inputs[answer].checked = true;
+	    inputs[answer].parentElement.className += ' active';
 	  });
 	  function QuestionViewBuilder(routeParams) {
 	    var mainContainer = document.querySelector('.main-container');
 	    var questionObj = data;
-	    var template = ("\n        <div class=\"question\">\n            <h3>The question is: " + questionObj.question + "</h3>\n            " + answersBuilder(questionObj.answers) + "\n            <a class=\"next\">Next</a>\n        </div>\n    ");
+	    var template = ("\n        <div class=\"question\">\n            <h3>" + questionObj.question + "</h3>\n            <div class=\"answers\">\n                " + answersBuilder(questionObj.answers) + "\n            </div>\n            <a class=\"button next\">Następne</a>\n        </div>\n    ");
 	    mainContainer.innerHTML = template;
 	    var inputs = document.querySelectorAll('input[name=single-choice-question]');
 	    addChangeListener({inputs: inputs});
@@ -257,6 +266,36 @@
 
 /***/ },
 /* 5 */
+/***/ function(module, exports) {
+
+	"use strict";
+	Object.defineProperties(exports, {
+	  default: {get: function() {
+	      return $__default;
+	    }},
+	  __esModule: {value: true}
+	});
+	var $__default = (function($__0) {
+	  var $__1 = $__0,
+	      element = $__1.element,
+	      inputs = $__1.inputs,
+	      route = $__1.route;
+	  element.onclick = (function(e) {
+	    inputs = Array.prototype.slice.call(inputs);
+	    var checked = inputs.filter((function(x) {
+	      return x.checked;
+	    }));
+	    if (checked.length) {
+	      window.location.hash = route;
+	      return;
+	    }
+	    alert('Nie odpowiedziałeś!');
+	  });
+	});
+
+
+/***/ },
+/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = function() {
@@ -264,8 +303,8 @@
 	  var $__2 = this;
 	  var $___46__46__47_data_47_multiChoiceQuestion__,
 	      $___46__46__47_utils_47_validate__;
-	  var data = ($___46__46__47_data_47_multiChoiceQuestion__ = __webpack_require__(6), $___46__46__47_data_47_multiChoiceQuestion__ && $___46__46__47_data_47_multiChoiceQuestion__.__esModule && $___46__46__47_data_47_multiChoiceQuestion__ || {default: $___46__46__47_data_47_multiChoiceQuestion__}).default;
-	  var validate = ($___46__46__47_utils_47_validate__ = __webpack_require__(9), $___46__46__47_utils_47_validate__ && $___46__46__47_utils_47_validate__.__esModule && $___46__46__47_utils_47_validate__ || {default: $___46__46__47_utils_47_validate__}).default;
+	  var data = ($___46__46__47_data_47_multiChoiceQuestion__ = __webpack_require__(7), $___46__46__47_data_47_multiChoiceQuestion__ && $___46__46__47_data_47_multiChoiceQuestion__.__esModule && $___46__46__47_data_47_multiChoiceQuestion__ || {default: $___46__46__47_data_47_multiChoiceQuestion__}).default;
+	  var validate = ($___46__46__47_utils_47_validate__ = __webpack_require__(5), $___46__46__47_utils_47_validate__ && $___46__46__47_utils_47_validate__.__esModule && $___46__46__47_utils_47_validate__ || {default: $___46__46__47_utils_47_validate__}).default;
 	  var save = (function() {
 	    var values = [];
 	    var inputs = document.querySelectorAll('input[name=multi-choice-question]');
@@ -303,7 +342,7 @@
 	  function QuestionViewBuilder(routeParams) {
 	    var mainContainer = document.querySelector('.main-container');
 	    var questionObj = data;
-	    var template = ("\n        <div class=\"question\">\n            <h3>The question is: " + questionObj.question + "</h3>\n            " + answersBuilder(questionObj.answers) + "\n            <a href=\"#/single-choice-question\">Prev</a>\n            <a class=\"summary\">Summary</a>\n        </div>\n    ");
+	    var template = ("\n        <div class=\"question\">\n            <h3>" + questionObj.question + "</h3>\n            <div class=\"answers\">\n                " + answersBuilder(questionObj.answers) + "\n            </div>\n            <div class=\"buttons-container\">\n                <a class=\"button\" href=\"#/single-choice-question\">Wstecz</a>\n                <a class=\"button summary\">Podsumowanie</a>\n            </div>\n        </div>\n    ");
 	    mainContainer.innerHTML = template;
 	    var inputs = document.querySelectorAll('input[name=multi-choice-question]');
 	    addChangeListener({inputs: inputs});
@@ -325,7 +364,7 @@
 
 
 /***/ },
-/* 6 */
+/* 7 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -343,7 +382,7 @@
 
 
 /***/ },
-/* 7 */
+/* 8 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -355,13 +394,13 @@
 	});
 	var $__default = function() {
 	  var mainContainer = document.querySelector('.main-container');
-	  var template = "\n        <div class=\"welcome\">\n            <h3>Witamy w ankiecie</h3>\n            <a href=\"#/single-choice-question\">Rozpocznij ankietę</a>\n        </div>\n    ";
+	  var template = "\n        <div class=\"welcome\">\n            <h2 class=\"welcome-heading\">Witamy w ankiecie</h2>\n            <a class=\"button\" href=\"#/single-choice-question\">Rozpocznij ankietę</a>\n        </div>\n    ";
 	  mainContainer.innerHTML = template;
 	};
 
 
 /***/ },
-/* 8 */
+/* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = function() {
@@ -370,7 +409,7 @@
 	  var $___46__46__47_data_47_singleChoiceQuestion__,
 	      $___46__46__47_data_47_multiChoiceQuestion__;
 	  var singleChoiceQuestion = ($___46__46__47_data_47_singleChoiceQuestion__ = __webpack_require__(4), $___46__46__47_data_47_singleChoiceQuestion__ && $___46__46__47_data_47_singleChoiceQuestion__.__esModule && $___46__46__47_data_47_singleChoiceQuestion__ || {default: $___46__46__47_data_47_singleChoiceQuestion__}).default;
-	  var multiChoiceQuestion = ($___46__46__47_data_47_multiChoiceQuestion__ = __webpack_require__(6), $___46__46__47_data_47_multiChoiceQuestion__ && $___46__46__47_data_47_multiChoiceQuestion__.__esModule && $___46__46__47_data_47_multiChoiceQuestion__ || {default: $___46__46__47_data_47_multiChoiceQuestion__}).default;
+	  var multiChoiceQuestion = ($___46__46__47_data_47_multiChoiceQuestion__ = __webpack_require__(7), $___46__46__47_data_47_multiChoiceQuestion__ && $___46__46__47_data_47_multiChoiceQuestion__.__esModule && $___46__46__47_data_47_multiChoiceQuestion__ || {default: $___46__46__47_data_47_multiChoiceQuestion__}).default;
 	  var answersBuilder = (function(answers) {
 	    var template = '';
 	    answers.forEach(function(i) {
@@ -394,36 +433,6 @@
 	    __esModule: true
 	  };
 	}.call(Reflect.global);
-
-
-/***/ },
-/* 9 */
-/***/ function(module, exports) {
-
-	"use strict";
-	Object.defineProperties(exports, {
-	  default: {get: function() {
-	      return $__default;
-	    }},
-	  __esModule: {value: true}
-	});
-	var $__default = (function($__0) {
-	  var $__1 = $__0,
-	      element = $__1.element,
-	      inputs = $__1.inputs,
-	      route = $__1.route;
-	  element.onclick = (function(e) {
-	    inputs = Array.prototype.slice.call(inputs);
-	    var checked = inputs.filter((function(x) {
-	      return x.checked;
-	    }));
-	    if (checked.length) {
-	      window.location.hash = route;
-	      return;
-	    }
-	    alert('Nie odpowiedziałeś!');
-	  });
-	});
 
 
 /***/ }

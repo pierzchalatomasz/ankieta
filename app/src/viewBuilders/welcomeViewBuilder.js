@@ -3,8 +3,8 @@ export default function () {
 
     var template = `
         <div class="welcome">
-            <h3>Witamy w ankiecie</h3>
-            <a href="#/single-choice-question">Rozpocznij ankietę</a>
+            <h2 class="welcome-heading">Witamy w ankiecie</h2>
+            <a class="button" href="#/single-choice-question">Rozpocznij ankietę</a>
         </div>
     `;
 

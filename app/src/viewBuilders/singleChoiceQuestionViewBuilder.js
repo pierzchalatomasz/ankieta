@@ -6,10 +6,10 @@ var answersBuilder = function (answers) {
 
     answers.forEach(function (answer, index) {
         template += `
-            <p>
-                <input type="radio" name="single-choice-question" value="${index}">
-                <label>${index + 1}. ${answer}</label>
-            </p>
+            <div class="answer">
+                <input type="radio" name="single-choice-question" value="${index}" id=${index}>
+                <label for="${index}">${index + 1}. ${answer}</label>
+            </div>
         `;
     }, this);
 
@@ -17,18 +17,32 @@ var answersBuilder = function (answers) {
 };
 
 var addChangeListener = ({ inputs }) => {
+    inputs = Array.from(inputs);
+    
     inputs.forEach(function (input) {
-        input.onchange = () => localStorage.singleChoiceQuestion = input.value;
+        input.onchange = () => {
+            localStorage.singleChoiceQuestion = input.value;
+
+            inputs.forEach(function (input) {
+                input.parentElement.className = input.parentElement.className.replace('active', '');
+            }, this);
+
+            if (input.checked) {
+                input.parentElement.className += ' active';
+            }
+        };
     }, this);
 };
 
 var readSavedState = ({ inputs }) => {
-    if (!localStorage.singleChoiceQuestion) {
+    var answer = parseInt(localStorage.singleChoiceQuestion);
+
+    if (isNaN(answer)) {
         return;
     }
 
-    var answer = parseInt(localStorage.singleChoiceQuestion);
     inputs[answer].checked = true;
+    inputs[answer].parentElement.className += ' active';
 };
 
 export default function QuestionViewBuilder(routeParams) {
@@ -37,9 +51,11 @@ export default function QuestionViewBuilder(routeParams) {
 
     var template = `
         <div class="question">
-            <h3>The question is: ${questionObj.question}</h3>
-            ${answersBuilder(questionObj.answers)}
-            <a class="next">Next</a>
+            <h3>${questionObj.question}</h3>
+            <div class="answers">
+                ${answersBuilder(questionObj.answers)}
+            </div>
+            <a class="button next">Następne</a>
         </div>
     `;
 
