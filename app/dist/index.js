@@ -259,7 +259,7 @@
 	});
 	var $__default = {
 	  question: 'Lorem ipsum dolor sit amet?',
-	  answers: ['consectetur adipiscing elit', 'sed do eiusmod tempor incididunt ut labore', 'et dolore magna aliqua'],
+	  answers: ['consectetur adipiscing elit', 'sed do eiusmod tempor incididunt ut labore', 'et dolore magna aliqua', 'enim ad minima veniam', 'quis nostrum exercitationem', 'ullam corporis suscipit'],
 	  correct: 1
 	};
 
@@ -394,7 +394,7 @@
 	});
 	var $__default = function() {
 	  var mainContainer = document.querySelector('.main-container');
-	  var template = "\n        <div class=\"welcome\">\n            <h2 class=\"welcome-heading\">Witamy w ankiecie</h2>\n            <a class=\"button\" href=\"#/single-choice-question\">Rozpocznij ankietę</a>\n        </div>\n    ";
+	  var template = "\n        <div class=\"welcome\">\n            <h2 class=\"welcome-heading\">Witamy w ankiecie</h2>\n            <input class=\"name-input\" type=\"text\" placeholder=\"Wpisz swoje imię\">\n            <a class=\"button button-welcome\" href=\"#/single-choice-question\">Rozpocznij ankietę</a>\n        </div>\n    ";
 	  mainContainer.innerHTML = template;
 	};
 
@@ -423,7 +423,7 @@
 	    var multiChoiceAnswers = localStorage.multiChoiceQuestion.split(',').map((function(x) {
 	      return parseInt(x);
 	    }));
-	    var template = ("\n        <div class=\"summary\">\n            <h3>Podsumowanie</h3>\n            <h4>Pytanie 1: " + singleChoiceQuestion.question + "</h4>\n            <p>Twoja odpowiedź: \n                <ul>\n                    <li>" + (singleChoiceAnswer + 1) + ". " + singleChoiceQuestion.answers[singleChoiceAnswer] + "</li>\n                </ul>\n            </p>\n            <h4>Pytanie 2: " + multiChoiceQuestion.question + "</h4>\n            <p>Twoje odpowiedzi: \n                <ul>\n                    " + answersBuilder(multiChoiceAnswers) + "\n                </ul>\n            </p>\n        </div>\n    ");
+	    var template = ("\n        <div class=\"summary\">\n            <h2>Podsumowanie</h2>\n            <div class=\"questions\">\n                <h4>Pytanie 1: " + singleChoiceQuestion.question + "</h4>\n                <p>Twoja odpowiedź: \n                    <ul>\n                        <li>" + (singleChoiceAnswer + 1) + ". " + singleChoiceQuestion.answers[singleChoiceAnswer] + "</li>\n                    </ul>\n                </p>\n                <h4>Pytanie 2: " + multiChoiceQuestion.question + "</h4>\n                <p>Twoje odpowiedzi: \n                    <ul>\n                        " + answersBuilder(multiChoiceAnswers) + "\n                    </ul>\n                </p>\n            </div>\n            <a class=\"button\" href=\"#/\">Powrót do startu</a>\n        </div>\n    ");
 	    mainContainer.innerHTML = template;
 	  };
 	  return {

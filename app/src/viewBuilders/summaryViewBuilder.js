@@ -18,19 +18,22 @@ export default function () {
 
     var template = `
         <div class="summary">
-            <h3>Podsumowanie</h3>
-            <h4>Pytanie 1: ${singleChoiceQuestion.question}</h4>
-            <p>Twoja odpowiedź: 
-                <ul>
-                    <li>${singleChoiceAnswer + 1}. ${singleChoiceQuestion.answers[singleChoiceAnswer]}</li>
-                </ul>
-            </p>
-            <h4>Pytanie 2: ${multiChoiceQuestion.question}</h4>
-            <p>Twoje odpowiedzi: 
-                <ul>
-                    ${answersBuilder(multiChoiceAnswers)}
-                </ul>
-            </p>
+            <h2>Podsumowanie</h2>
+            <div class="questions">
+                <h4>Pytanie 1: ${singleChoiceQuestion.question}</h4>
+                <p>Twoja odpowiedź: 
+                    <ul>
+                        <li>${singleChoiceAnswer + 1}. ${singleChoiceQuestion.answers[singleChoiceAnswer]}</li>
+                    </ul>
+                </p>
+                <h4>Pytanie 2: ${multiChoiceQuestion.question}</h4>
+                <p>Twoje odpowiedzi: 
+                    <ul>
+                        ${answersBuilder(multiChoiceAnswers)}
+                    </ul>
+                </p>
+            </div>
+            <a class="button" href="#/">Powrót do startu</a>
         </div>
     `;
 

@@ -3,7 +3,10 @@ export default {
     answers: [
         'consectetur adipiscing elit',
         'sed do eiusmod tempor incididunt ut labore',
-        'et dolore magna aliqua'
+        'et dolore magna aliqua',
+        'enim ad minima veniam',
+        'quis nostrum exercitationem',
+        'ullam corporis suscipit'
     ],
     correct: 1
 };
