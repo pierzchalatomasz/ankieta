@@ -1,14 +1,14 @@
 import singleChoiceQuestion from '../data/singleChoiceQuestion';
 import multiChoiceQuestion from '../data/multiChoiceQuestion';
-import isStatePermitted from '../utils/isStatePermitted';
+import validate from '../utils/validate';
 
 var answersBuilder = (answers) => {
     var template = '';
 
-    answers.forEach(function(i) {
-        template += `<li>${i + 1}. ${multiChoiceQuestion.answers[i]}</li>`;    
+    answers.forEach(function (i) {
+        template += `<li>${i + 1}. ${multiChoiceQuestion.answers[i]}</li>`;
     }, this);
-    
+
     return template;
 };
 
@@ -19,13 +19,15 @@ var getName = () => {
 var setClearEvent = () => {
     document.querySelector('.clear').onclick = () => {
         ['name', 'singleChoiceQuestion', 'multiChoiceQuestion'].map(x => localStorage.removeItem(x));
-        window.location.hash = '/';
+        State.go('/');
     };
 };
 
 export default function () {
-    isStatePermitted({ prevRoute: '/multi-choice-question', field: localStorage.multiChoiceQuestion });
-
+    if (!validate()) {
+        return;
+    }
+console.log(State.prev);
     var mainContainer = document.querySelector('.main-container');
     var singleChoiceAnswer = parseInt(localStorage.singleChoiceQuestion);
     var multiChoiceAnswers = localStorage.multiChoiceQuestion.split(',').map(x => parseInt(x));

@@ -1,17 +1,3 @@
-var validate = ({ element, inputs, route }) => {
-    element.onclick = (e) => {
-        var input = document.querySelector('.name-input');
-
-        if (input.value) {
-            save(input.value);
-            window.location.hash = route;
-            return;
-        }
-
-        alert('Nie podałeś swojego imienia!');
-    };
-};
-
 var save = (name) => {
     localStorage.name = name;
 };
@@ -29,5 +15,13 @@ export default function () {
 
     mainContainer.innerHTML = template;
 
-    validate({ element: document.querySelector('.button-welcome'), route: '/single-choice-question' });
+    document.querySelector('.button-welcome').onclick = () => {
+        var input = document.querySelector('.name-input');
+
+        if (input.value) {
+            save(input.value);
+        }
+
+        State.go('/single-choice-question');
+    };
 }

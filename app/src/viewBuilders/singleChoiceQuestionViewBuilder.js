@@ -1,6 +1,4 @@
 import data from '../data/singleChoiceQuestion';
-import validate from '../utils/validate';
-import isStatePermitted from '../utils/isStatePermitted';
 
 var answersBuilder = function (answers) {
     var template = '';
@@ -47,8 +45,6 @@ var readSavedState = ({ inputs }) => {
 };
 
 export default function QuestionViewBuilder(routeParams) {
-    isStatePermitted({ prevRoute: '/', field: localStorage.name });
-
     var mainContainer = document.querySelector('.main-container');
     var questionObj = data;
 
@@ -58,7 +54,10 @@ export default function QuestionViewBuilder(routeParams) {
             <div class="answers">
                 ${answersBuilder(questionObj.answers)}
             </div>
-            <a class="button next">Następne</a>
+            <div class="buttons-container">
+                <a class="button" onClick="State.go('/')">Wstecz</a>
+                <a class="button next" onClick="State.go('/multi-choice-question')">Następne</a>
+            </div>
         </div>
     `;
 
@@ -69,6 +68,4 @@ export default function QuestionViewBuilder(routeParams) {
     var inputs = document.querySelectorAll('input[name=single-choice-question]');
     addChangeListener({ inputs });
     readSavedState({ inputs });
-
-    validate({ element: document.querySelector('.next'), inputs, route: '/multi-choice-question' });
 }

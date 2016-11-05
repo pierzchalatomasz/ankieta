@@ -1,13 +1,35 @@
-export default ({ element, inputs, route }) => {
-    element.onclick = (e) => {
-        inputs = Array.prototype.slice.call(inputs);
-        var checked = inputs.filter(x => x.checked);
+export default function () {
+    var mainContainer = document.querySelector('.main-container');
+    
+    var isValid = true;
 
-        if (checked.length) {
-            window.location.hash = route;
+    var map = {
+        name: '/',
+        singleChoiceQuestion: '/single-choice-question',
+        multiChoiceQuestion: '/multi-choice-question'
+    };
+
+    function showNotification() {
+        var notification = document.createElement('div');
+        notification.className = 'notification';
+        notification.innerText = 'Nie odpowiedziałeś na to pytanie!';
+
+        document.querySelector('body').appendChild(notification);
+
+        setTimeout(() => {
+            document.querySelector('body').removeChild(notification);
+        }, 1000);
+    }
+
+    for (var key in map) {
+        if (!localStorage[key]) {
+            isValid = false;
+            State.go(map[key]);
+            showNotification();
+
             return;
         }
+    }
 
-        alert('Nie odpowiedziałeś!');
-    };
-};
+    return isValid;
+}

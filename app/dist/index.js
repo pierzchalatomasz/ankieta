@@ -46,28 +46,31 @@
 
 	"use strict";
 	var $__router__,
+	    $__state__,
 	    $__data__,
 	    $__viewBuilders_47_singleChoiceQuestionViewBuilder__,
 	    $__viewBuilders_47_multiChoiceQuestionViewBuilder__,
 	    $__viewBuilders_47_welcomeViewBuilder__,
 	    $__viewBuilders_47_summaryViewBuilder__;
 	var Router = ($__router__ = __webpack_require__(1), $__router__ && $__router__.__esModule && $__router__ || {default: $__router__}).default;
+	var State = ($__state__ = __webpack_require__(11), $__state__ && $__state__.__esModule && $__state__ || {default: $__state__}).default;
 	var data = ($__data__ = __webpack_require__(2), $__data__ && $__data__.__esModule && $__data__ || {default: $__data__}).default;
 	var singleChoiceQuestionViewBuilder = ($__viewBuilders_47_singleChoiceQuestionViewBuilder__ = __webpack_require__(3), $__viewBuilders_47_singleChoiceQuestionViewBuilder__ && $__viewBuilders_47_singleChoiceQuestionViewBuilder__.__esModule && $__viewBuilders_47_singleChoiceQuestionViewBuilder__ || {default: $__viewBuilders_47_singleChoiceQuestionViewBuilder__}).default;
 	var multiChoiceQuestionViewBuilder = ($__viewBuilders_47_multiChoiceQuestionViewBuilder__ = __webpack_require__(7), $__viewBuilders_47_multiChoiceQuestionViewBuilder__ && $__viewBuilders_47_multiChoiceQuestionViewBuilder__.__esModule && $__viewBuilders_47_multiChoiceQuestionViewBuilder__ || {default: $__viewBuilders_47_multiChoiceQuestionViewBuilder__}).default;
 	var welcomeViewBuilder = ($__viewBuilders_47_welcomeViewBuilder__ = __webpack_require__(9), $__viewBuilders_47_welcomeViewBuilder__ && $__viewBuilders_47_welcomeViewBuilder__.__esModule && $__viewBuilders_47_welcomeViewBuilder__ || {default: $__viewBuilders_47_welcomeViewBuilder__}).default;
 	var summaryViewBuilder = ($__viewBuilders_47_summaryViewBuilder__ = __webpack_require__(10), $__viewBuilders_47_summaryViewBuilder__ && $__viewBuilders_47_summaryViewBuilder__.__esModule && $__viewBuilders_47_summaryViewBuilder__ || {default: $__viewBuilders_47_summaryViewBuilder__}).default;
+	window.State = new State();
 	Router.route({
-	  route: 'single-choice-question/',
+	  route: '/single-choice-question',
 	  handler: singleChoiceQuestionViewBuilder
 	}).route({
-	  route: 'multi-choice-question/',
+	  route: '/multi-choice-question',
 	  handler: multiChoiceQuestionViewBuilder
 	}).route({
 	  route: '/',
 	  handler: welcomeViewBuilder
 	}).route({
-	  route: 'summary/',
+	  route: '/summary',
 	  handler: summaryViewBuilder
 	});
 
@@ -185,13 +188,9 @@
 
 	module.exports = function() {
 	  "use strict";
-	  var $__3 = this;
-	  var $___46__46__47_data_47_singleChoiceQuestion__,
-	      $___46__46__47_utils_47_validate__,
-	      $___46__46__47_utils_47_isStatePermitted__;
+	  var $__1 = this;
+	  var $___46__46__47_data_47_singleChoiceQuestion__;
 	  var data = ($___46__46__47_data_47_singleChoiceQuestion__ = __webpack_require__(4), $___46__46__47_data_47_singleChoiceQuestion__ && $___46__46__47_data_47_singleChoiceQuestion__.__esModule && $___46__46__47_data_47_singleChoiceQuestion__ || {default: $___46__46__47_data_47_singleChoiceQuestion__}).default;
-	  var validate = ($___46__46__47_utils_47_validate__ = __webpack_require__(5), $___46__46__47_utils_47_validate__ && $___46__46__47_utils_47_validate__.__esModule && $___46__46__47_utils_47_validate__ || {default: $___46__46__47_utils_47_validate__}).default;
-	  var isStatePermitted = ($___46__46__47_utils_47_isStatePermitted__ = __webpack_require__(6), $___46__46__47_utils_47_isStatePermitted__ && $___46__46__47_utils_47_isStatePermitted__.__esModule && $___46__46__47_utils_47_isStatePermitted__ || {default: $___46__46__47_utils_47_isStatePermitted__}).default;
 	  var answersBuilder = function(answers) {
 	    var template = '';
 	    answers.forEach(function(answer, index) {
@@ -199,24 +198,24 @@
 	    }, this);
 	    return template;
 	  };
-	  var addChangeListener = (function($__5) {
-	    var inputs = $__5.inputs;
+	  var addChangeListener = (function($__3) {
+	    var inputs = $__3.inputs;
 	    inputs = Array.from(inputs);
 	    inputs.forEach(function(input) {
-	      var $__4 = this;
+	      var $__2 = this;
 	      input.onchange = (function() {
 	        localStorage.singleChoiceQuestion = input.value;
 	        inputs.forEach(function(input) {
 	          input.parentElement.className = input.parentElement.className.replace('active', '');
-	        }, $__4);
+	        }, $__2);
 	        if (input.checked) {
 	          input.parentElement.className += ' active';
 	        }
 	      });
-	    }, $__3);
+	    }, $__1);
 	  });
-	  var readSavedState = (function($__5) {
-	    var inputs = $__5.inputs;
+	  var readSavedState = (function($__3) {
+	    var inputs = $__3.inputs;
 	    var answer = parseInt(localStorage.singleChoiceQuestion);
 	    if (isNaN(answer)) {
 	      return;
@@ -225,23 +224,14 @@
 	    inputs[answer].parentElement.className += ' active';
 	  });
 	  function QuestionViewBuilder(routeParams) {
-	    isStatePermitted({
-	      prevRoute: '/',
-	      field: localStorage.name
-	    });
 	    var mainContainer = document.querySelector('.main-container');
 	    var questionObj = data;
-	    var template = ("\n        <div class=\"question\">\n            <h3>" + questionObj.question + "</h3>\n            <div class=\"answers\">\n                " + answersBuilder(questionObj.answers) + "\n            </div>\n            <a class=\"button next\">Następne</a>\n        </div>\n    ");
+	    var template = ("\n        <div class=\"question\">\n            <h3>" + questionObj.question + "</h3>\n            <div class=\"answers\">\n                " + answersBuilder(questionObj.answers) + "\n            </div>\n            <div class=\"buttons-container\">\n                <a class=\"button\" onClick=\"State.go('/')\">Wstecz</a>\n                <a class=\"button next\" onClick=\"State.go('/multi-choice-question')\">Następne</a>\n            </div>\n        </div>\n    ");
 	    mainContainer.innerHTML = template;
 	    window.MathJax.Hub.Typeset();
 	    var inputs = document.querySelectorAll('input[name=single-choice-question]');
 	    addChangeListener({inputs: inputs});
 	    readSavedState({inputs: inputs});
-	    validate({
-	      element: document.querySelector('.next'),
-	      inputs: inputs,
-	      route: '/multi-choice-question'
-	    });
 	  }
 	  var $__default = QuestionViewBuilder;
 	  return {
@@ -281,59 +271,45 @@
 	    }},
 	  __esModule: {value: true}
 	});
-	var $__default = (function($__0) {
-	  var $__1 = $__0,
-	      element = $__1.element,
-	      inputs = $__1.inputs,
-	      route = $__1.route;
-	  element.onclick = (function(e) {
-	    inputs = Array.prototype.slice.call(inputs);
-	    var checked = inputs.filter((function(x) {
-	      return x.checked;
-	    }));
-	    if (checked.length) {
-	      window.location.hash = route;
+	var $__default = function() {
+	  var mainContainer = document.querySelector('.main-container');
+	  var isValid = true;
+	  var map = {
+	    name: '/',
+	    singleChoiceQuestion: '/single-choice-question',
+	    multiChoiceQuestion: '/multi-choice-question'
+	  };
+	  function showNotification() {
+	    var notification = document.createElement('div');
+	    notification.className = 'notification';
+	    notification.innerText = 'Nie odpowiedziałeś na to pytanie!';
+	    document.querySelector('body').appendChild(notification);
+	    setTimeout((function() {
+	      document.querySelector('body').removeChild(notification);
+	    }), 1000);
+	  }
+	  for (var key in map) {
+	    if (!localStorage[key]) {
+	      isValid = false;
+	      State.go(map[key]);
+	      showNotification();
 	      return;
 	    }
-	    alert('Nie odpowiedziałeś!');
-	  });
-	});
-
-
-/***/ },
-/* 6 */
-/***/ function(module, exports) {
-
-	"use strict";
-	Object.defineProperties(exports, {
-	  default: {get: function() {
-	      return $__default;
-	    }},
-	  __esModule: {value: true}
-	});
-	var $__default = function($__0) {
-	  var $__1 = $__0,
-	      prevRoute = $__1.prevRoute,
-	      field = $__1.field;
-	  if (!field) {
-	    window.location.hash = prevRoute;
 	  }
+	  return isValid;
 	};
 
 
 /***/ },
+/* 6 */,
 /* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = function() {
 	  "use strict";
-	  var $__3 = this;
-	  var $___46__46__47_data_47_multiChoiceQuestion__,
-	      $___46__46__47_utils_47_validate__,
-	      $___46__46__47_utils_47_isStatePermitted__;
+	  var $__1 = this;
+	  var $___46__46__47_data_47_multiChoiceQuestion__;
 	  var data = ($___46__46__47_data_47_multiChoiceQuestion__ = __webpack_require__(8), $___46__46__47_data_47_multiChoiceQuestion__ && $___46__46__47_data_47_multiChoiceQuestion__.__esModule && $___46__46__47_data_47_multiChoiceQuestion__ || {default: $___46__46__47_data_47_multiChoiceQuestion__}).default;
-	  var validate = ($___46__46__47_utils_47_validate__ = __webpack_require__(5), $___46__46__47_utils_47_validate__ && $___46__46__47_utils_47_validate__.__esModule && $___46__46__47_utils_47_validate__ || {default: $___46__46__47_utils_47_validate__}).default;
-	  var isStatePermitted = ($___46__46__47_utils_47_isStatePermitted__ = __webpack_require__(6), $___46__46__47_utils_47_isStatePermitted__ && $___46__46__47_utils_47_isStatePermitted__.__esModule && $___46__46__47_utils_47_isStatePermitted__ || {default: $___46__46__47_utils_47_isStatePermitted__}).default;
 	  var save = (function() {
 	    var values = [];
 	    var inputs = document.querySelectorAll('input[name=multi-choice-question]');
@@ -341,7 +317,7 @@
 	      if (input.checked) {
 	        values.push(input.value);
 	      }
-	    }, $__3);
+	    }, $__1);
 	    localStorage.multiChoiceQuestion = values;
 	  });
 	  var answersBuilder = function(answers) {
@@ -351,8 +327,8 @@
 	    }, this);
 	    return template;
 	  };
-	  var addChangeListener = (function($__4) {
-	    var inputs = $__4.inputs;
+	  var addChangeListener = (function($__2) {
+	    var inputs = $__2.inputs;
 	    inputs = Array.from(inputs);
 	    inputs.forEach(function(input) {
 	      input.onchange = (function() {
@@ -363,10 +339,10 @@
 	        }
 	        input.parentElement.className = input.parentElement.className.replace('active', '');
 	      });
-	    }, $__3);
+	    }, $__1);
 	  });
-	  var readSavedState = (function($__4) {
-	    var inputs = $__4.inputs;
+	  var readSavedState = (function($__2) {
+	    var inputs = $__2.inputs;
 	    var answers = localStorage.multiChoiceQuestion;
 	    if (!answers) {
 	      return;
@@ -379,22 +355,13 @@
 	    });
 	  });
 	  function QuestionViewBuilder(routeParams) {
-	    isStatePermitted({
-	      prevRoute: '/single-choice-question',
-	      field: localStorage.singleChoiceQuestion
-	    });
 	    var mainContainer = document.querySelector('.main-container');
 	    var questionObj = data;
-	    var template = ("\n        <div class=\"question\">\n            <h3>" + questionObj.question + "</h3>\n            <div class=\"answers\">\n                " + answersBuilder(questionObj.answers) + "\n            </div>\n            <div class=\"buttons-container\">\n                <a class=\"button\" href=\"#/single-choice-question\">Wstecz</a>\n                <a class=\"button summary\">Podsumowanie</a>\n            </div>\n        </div>\n    ");
+	    var template = ("\n        <div class=\"question\">\n            <h3>" + questionObj.question + "</h3>\n            <div class=\"answers\">\n                " + answersBuilder(questionObj.answers) + "\n            </div>\n            <div class=\"buttons-container\">\n                <a class=\"button\" onClick=\"State.go('/single-choice-question')\">Wstecz</a>\n                <a class=\"button summary\" onClick=\"State.go('/summary')\">Podsumowanie</a>\n            </div>\n        </div>\n    ");
 	    mainContainer.innerHTML = template;
 	    var inputs = document.querySelectorAll('input[name=multi-choice-question]');
 	    addChangeListener({inputs: inputs});
 	    readSavedState({inputs: inputs});
-	    validate({
-	      element: document.querySelector('.summary'),
-	      inputs: inputs,
-	      route: '/summary'
-	    });
 	  }
 	  var $__default = QuestionViewBuilder;
 	  return {
@@ -435,21 +402,6 @@
 	    }},
 	  __esModule: {value: true}
 	});
-	var validate = (function($__0) {
-	  var $__1 = $__0,
-	      element = $__1.element,
-	      inputs = $__1.inputs,
-	      route = $__1.route;
-	  element.onclick = (function(e) {
-	    var input = document.querySelector('.name-input');
-	    if (input.value) {
-	      save(input.value);
-	      window.location.hash = route;
-	      return;
-	    }
-	    alert('Nie podałeś swojego imienia!');
-	  });
-	});
 	var save = (function(name) {
 	  localStorage.name = name;
 	});
@@ -457,9 +409,12 @@
 	  var mainContainer = document.querySelector('.main-container');
 	  var template = ("\n        <div class=\"welcome\">\n            <h2 class=\"welcome-heading\">Witamy w ankiecie</h2>\n            <input class=\"name-input\" type=\"text\" placeholder=\"Wpisz swoje imię\" value=\"" + (localStorage.name || '') + "\">\n            <a class=\"button button-welcome\">Rozpocznij ankietę</a>\n        </div>\n    ");
 	  mainContainer.innerHTML = template;
-	  validate({
-	    element: document.querySelector('.button-welcome'),
-	    route: '/single-choice-question'
+	  document.querySelector('.button-welcome').onclick = (function() {
+	    var input = document.querySelector('.name-input');
+	    if (input.value) {
+	      save(input.value);
+	    }
+	    State.go('/single-choice-question');
 	  });
 	};
 
@@ -473,10 +428,10 @@
 	  var $__3 = this;
 	  var $___46__46__47_data_47_singleChoiceQuestion__,
 	      $___46__46__47_data_47_multiChoiceQuestion__,
-	      $___46__46__47_utils_47_isStatePermitted__;
+	      $___46__46__47_utils_47_validate__;
 	  var singleChoiceQuestion = ($___46__46__47_data_47_singleChoiceQuestion__ = __webpack_require__(4), $___46__46__47_data_47_singleChoiceQuestion__ && $___46__46__47_data_47_singleChoiceQuestion__.__esModule && $___46__46__47_data_47_singleChoiceQuestion__ || {default: $___46__46__47_data_47_singleChoiceQuestion__}).default;
 	  var multiChoiceQuestion = ($___46__46__47_data_47_multiChoiceQuestion__ = __webpack_require__(8), $___46__46__47_data_47_multiChoiceQuestion__ && $___46__46__47_data_47_multiChoiceQuestion__.__esModule && $___46__46__47_data_47_multiChoiceQuestion__ || {default: $___46__46__47_data_47_multiChoiceQuestion__}).default;
-	  var isStatePermitted = ($___46__46__47_utils_47_isStatePermitted__ = __webpack_require__(6), $___46__46__47_utils_47_isStatePermitted__ && $___46__46__47_utils_47_isStatePermitted__.__esModule && $___46__46__47_utils_47_isStatePermitted__ || {default: $___46__46__47_utils_47_isStatePermitted__}).default;
+	  var validate = ($___46__46__47_utils_47_validate__ = __webpack_require__(5), $___46__46__47_utils_47_validate__ && $___46__46__47_utils_47_validate__.__esModule && $___46__46__47_utils_47_validate__ || {default: $___46__46__47_utils_47_validate__}).default;
 	  var answersBuilder = (function(answers) {
 	    var template = '';
 	    answers.forEach(function(i) {
@@ -492,14 +447,14 @@
 	      ['name', 'singleChoiceQuestion', 'multiChoiceQuestion'].map((function(x) {
 	        return localStorage.removeItem(x);
 	      }));
-	      window.location.hash = '/';
+	      State.go('/');
 	    });
 	  });
 	  var $__default = function() {
-	    isStatePermitted({
-	      prevRoute: '/multi-choice-question',
-	      field: localStorage.multiChoiceQuestion
-	    });
+	    if (!validate()) {
+	      return;
+	    }
+	    console.log(State.prev);
 	    var mainContainer = document.querySelector('.main-container');
 	    var singleChoiceAnswer = parseInt(localStorage.singleChoiceQuestion);
 	    var multiChoiceAnswers = localStorage.multiChoiceQuestion.split(',').map((function(x) {
@@ -517,6 +472,30 @@
 	    __esModule: true
 	  };
 	}.call(Reflect.global);
+
+
+/***/ },
+/* 11 */
+/***/ function(module, exports) {
+
+	"use strict";
+	Object.defineProperties(exports, {
+	  default: {get: function() {
+	      return $__default;
+	    }},
+	  __esModule: {value: true}
+	});
+	var $__default = function() {
+	  var $__0 = this;
+	  this.prev = null;
+	  this.current = null;
+	  this.go = (function(route) {
+	    $__0.prev = window.location.hash;
+	    window.location.hash = route;
+	    $__0.current = route;
+	  });
+	};
+	;
 
 
 /***/ }

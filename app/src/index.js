@@ -1,16 +1,19 @@
 import Router from './router';
+import State from './state';
 import data from './data';
 import singleChoiceQuestionViewBuilder from './viewBuilders/singleChoiceQuestionViewBuilder';
 import multiChoiceQuestionViewBuilder from './viewBuilders/multiChoiceQuestionViewBuilder';
 import welcomeViewBuilder from './viewBuilders/welcomeViewBuilder';
 import summaryViewBuilder from './viewBuilders/summaryViewBuilder';
 
+window.State = new State();
+
 Router.route({
-    route: 'single-choice-question/',
+    route: '/single-choice-question',
     handler: singleChoiceQuestionViewBuilder
 })
 .route({
-    route: 'multi-choice-question/',
+    route: '/multi-choice-question',
     handler: multiChoiceQuestionViewBuilder
 })
 .route({
@@ -18,6 +21,6 @@ Router.route({
     handler: welcomeViewBuilder
 })
 .route({
-    route: 'summary/',
+    route: '/summary',
     handler: summaryViewBuilder
 });
