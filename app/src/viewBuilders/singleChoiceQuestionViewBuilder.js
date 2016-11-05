@@ -1,5 +1,6 @@
 import data from '../data/singleChoiceQuestion';
 import validate from '../utils/validate';
+import isStatePermitted from '../utils/isStatePermitted';
 
 var answersBuilder = function (answers) {
     var template = '';
@@ -46,6 +47,8 @@ var readSavedState = ({ inputs }) => {
 };
 
 export default function QuestionViewBuilder(routeParams) {
+    isStatePermitted({ prevRoute: '/', field: localStorage.name });
+
     var mainContainer = document.querySelector('.main-container');
     var questionObj = data;
 
@@ -60,6 +63,8 @@ export default function QuestionViewBuilder(routeParams) {
     `;
 
     mainContainer.innerHTML = template;
+
+    window.MathJax.Hub.Typeset();
 
     var inputs = document.querySelectorAll('input[name=single-choice-question]');
     addChangeListener({ inputs });
