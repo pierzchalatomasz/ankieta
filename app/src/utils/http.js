@@ -35,6 +35,7 @@ export default {
         req.onreadystatechange = function (aEvt) {
             if (req.readyState == 4) {
                 if (req.status == 200) {
+                    console.log(req.responseText);
                     var res = JSON.parse(req.responseText);
                     deferred.resolve(res);
                 } else {

@@ -1,6 +1,7 @@
 import singleChoiceQuestion from '../data/singleChoiceQuestion';
 import multiChoiceQuestion from '../data/multiChoiceQuestion';
 import chartsViewBuilder from './chartsViewBuilder';
+import http from '../utils/http';
 
 var answersBuilder = (answers) => {
     var template = '';
@@ -12,10 +13,6 @@ var answersBuilder = (answers) => {
     return template;
 };
 
-var getName = () => {
-    return localStorage.name || '';
-};
-
 var setClearEvent = () => {
     document.querySelector('.clear').onclick = () => {
         ['name', 'singleChoiceQuestion', 'multiChoiceQuestion'].map(x => localStorage.removeItem(x));
@@ -23,30 +20,33 @@ var setClearEvent = () => {
     };
 };
 
-export default function () {
+var getData = async () => {
+    var res = await http.get({ url: 'server_app/get.php' });
+    return res;
+};
+
+var getSingleAnswer = (answers) => {
+    var max = 0;
+    var index;
+
+    for (var i = 0; i < answers.length; i++) {
+        if (answers[i] > max) {
+            max = answers[i];
+            index = i;
+        }
+    };
+
+    return index;
+};
+
+export default async function () {
     var mainContainer = document.querySelector('.main-container');
-    var singleChoiceAnswer = parseInt(localStorage.singleChoiceQuestion);
-    var multiChoiceAnswers = localStorage.multiChoiceQuestion.split(',').map(x => parseInt(x));
+    var data = await getData();
+    var singleChoiceAnswer = getSingleAnswer(data.singleChoiceAnswers);
 
     var template = `
         <div class="summary">
             <h2>Podsumowanie wyników</h2>
-                <!--<div>
-                    <h4>Twoje imię: ${getName()}</h4>
-                    <div class="questions">
-                        <h4>Pytanie 1: ${singleChoiceQuestion.question}</h4>
-                        <p>Twoja odpowiedź: 
-                            <ul>
-                                <li>${singleChoiceAnswer + 1}. ${singleChoiceQuestion.answers[singleChoiceAnswer]}</li>
-                            </ul>
-                        </p>
-                        <h4>Pytanie 2: ${multiChoiceQuestion.question}</h4>
-                        <p>Twoje odpowiedzi: 
-                            <ul>
-                                ${answersBuilder(multiChoiceAnswers)}
-                            </ul>
-                        </p>
-                    </div>-->
                 <div style="display: flex; flex-direction: row;">
                     <div style="padding: 15px;">
                         <h4>${singleChoiceQuestion.question}</h4>
@@ -71,5 +71,5 @@ export default function () {
 
     setClearEvent();
 
-    chartsViewBuilder();   
+    chartsViewBuilder({ data });   
 }
