@@ -7,7 +7,7 @@ module.exports = {
   module: {
     loaders: [
       // Transpile any JavaScript file:
-      { test: /\.js$/, loader: 'webpack-traceur' }
+      { test: /\.js$/, loader: 'webpack-traceur?experimental' },
     ]
   }
 };
