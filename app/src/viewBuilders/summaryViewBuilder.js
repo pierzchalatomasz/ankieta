@@ -1,6 +1,7 @@
 import singleChoiceQuestion from '../data/singleChoiceQuestion';
 import multiChoiceQuestion from '../data/multiChoiceQuestion';
 import validate from '../utils/validate';
+import http from '../utils/http';
 
 var answersBuilder = (answers) => {
     var template = '';
@@ -23,11 +24,27 @@ var setClearEvent = () => {
     };
 };
 
+var sendData = async () => {
+    var data = {
+        name: localStorage.name,
+        singleChoiceQuestion: parseInt(localStorage.singleChoiceQuestion),
+        multiChoiceQuestion: localStorage.multiChoiceQuestion.split(',').map(x => parseInt(x))
+    };
+
+    var res = await http.post({ url: 'server_app/server.php', data });
+
+    console.log(res);
+};
+
 export default function () {
     if (!validate()) {
         return;
     }
-console.log(State.prev);
+
+    if (State.prev) {
+        sendData();
+    }
+
     var mainContainer = document.querySelector('.main-container');
     var singleChoiceAnswer = parseInt(localStorage.singleChoiceQuestion);
     var multiChoiceAnswers = localStorage.multiChoiceQuestion.split(',').map(x => parseInt(x));
