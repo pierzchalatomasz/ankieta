@@ -5,7 +5,7 @@ export default {
         'pop',
         'jazz',
         'funk',
-        'muzyka klasyczna',
+        'metal',
         'inny'
     ],
     correct: 1

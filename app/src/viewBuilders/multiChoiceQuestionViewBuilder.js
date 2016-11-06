@@ -1,4 +1,24 @@
 import data from '../data/multiChoiceQuestion';
+import http from '../utils/http';
+import validate from '../utils/validate';
+
+var sendData = async () => {
+    if (!validate()) {
+        return;
+    }
+
+    var data = {
+        name: localStorage.name,
+        singleChoiceQuestion: parseInt(localStorage.singleChoiceQuestion),
+        multiChoiceQuestion: localStorage.multiChoiceQuestion.split(',').map(x => parseInt(x))
+    };
+
+    var res = await http.post({ url: 'server_app/server.php', data });
+
+    console.log(res);
+
+    State.go('/summary');
+};
 
 var save = () => {
     var values = [];
@@ -74,7 +94,7 @@ export default function QuestionViewBuilder(routeParams) {
             </div>
             <div class="buttons-container">
                 <a class="button" onClick="State.go('/single-choice-question')">Wstecz</a>
-                <a class="button summary" onClick="State.go('/summary')">Podsumowanie</a>
+                <a class="button summary" onClick="State.go('/summary')">Wyślij</a>
             </div>
         </div>
     `;
@@ -84,4 +104,6 @@ export default function QuestionViewBuilder(routeParams) {
     var inputs = document.querySelectorAll('input[name=multi-choice-question]');
     addChangeListener({ inputs });
     readSavedState({ inputs });
+
+    document.querySelector('.summary').addEventListener('click', sendData);
 }
