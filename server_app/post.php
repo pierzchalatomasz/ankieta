@@ -1,16 +1,10 @@
 <?php
- /*//TEST
-    $json = '{
-        "name":"moja stara",
-        "singleChoiceQuestion": 4,
-        "multiChoiceQuestion":[1,2,3,4,5]
-    }';
-*/
-
-    $json = $_POST["jsonFilename"];
+    $json = $_POST["data"];
     $db = getDatabase();
     saveAnswers($db, $json);
     $db->close();
+
+    echo $json;
 
     function getDatabase(){
         if(!file_exists('database.db')){
