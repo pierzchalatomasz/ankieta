@@ -1,5 +1,6 @@
 <?php
 
+    usleep(100000);
     $db = new SQLite3('database.db');
     $stats = getStats($db);
     $db->close();
