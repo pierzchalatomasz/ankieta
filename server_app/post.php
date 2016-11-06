@@ -10,6 +10,7 @@
     $json = $_POST["jsonFilename"];
     $db = getDatabase();
     saveAnswers($db, $json);
+    $db->close();
 
     function getDatabase(){
         if(!file_exists('database.db')){

@@ -1,17 +1,9 @@
 <?php
 
-    $db = getDatabase();
+    $db = new SQLite3('database.db');
     $stats = getStats($db);
+    $db->close();
     echo json_encode($stats);
-
-    function getDatabase(){
-        if(!file_exists('database.db')){
-            $db = new SQLite3('database.db');
-            createTable($db);
-        } else
-            $db = new SQLite3('database.db');
-        return $db;
-    }
 
     function getStats($db){
         $singleChoiceAnswers = getColSums($db, "singleChoiceAnswers");
