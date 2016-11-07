@@ -13,9 +13,7 @@ var sendData = async () => {
         multiChoiceQuestion: localStorage.multiChoiceQuestion.split(',').map(x => parseInt(x))
     };
 
-    var res = await http.post({ url: 'server_app/post.php', data });
-
-    console.log(res);
+    await http.post({ url: 'server_app/post.php', data });
 
     State.go('/summary');
 };

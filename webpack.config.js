@@ -1,3 +1,5 @@
+var webpack = require('webpack');
+
 module.exports = {
   entry: './app/src/index.js',
   output: {
@@ -9,5 +11,8 @@ module.exports = {
       // Transpile any JavaScript file:
       { test: /\.js$/, loader: 'webpack-traceur?experimental' },
     ]
-  }
+  },
+  plugins: [
+    new webpack.optimize.UglifyJsPlugin({ minimize: true })
+  ]
 };

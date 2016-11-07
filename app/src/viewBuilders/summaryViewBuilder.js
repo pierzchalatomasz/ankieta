@@ -45,15 +45,15 @@ export default async function () {
     var singleChoiceAnswer = getSingleAnswer(data.singleChoiceAnswers);
 
     var template = `
-        <div class="summary">
+        <div class="summary question">
             <h2>Podsumowanie wyników</h2>
-                <div style="display: flex; flex-direction: row;">
-                    <div style="padding: 15px;">
+                <div class="answers">
+                    <div class="answer">
                         <h4>${singleChoiceQuestion.question}</h4>
                         <p>Użytkownicy najczęściej wybierali:</p>
                         ${singleChoiceQuestion.answers[singleChoiceAnswer]}
                     </div>
-                    <div style="padding: 15px;">
+                    <div class="answer">
                         <h4>${multiChoiceQuestion.question}</h4>
                         <canvas id="multiChoiceQuestionChart" height="200"></canvas>
                     </div>

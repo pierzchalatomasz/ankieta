@@ -1,5 +1,5 @@
 import multiChoiceQuestion from '../data/multiChoiceQuestion';
-import Chart from 'chart.js/src/chart';
+import Chart from 'chart.js/dist/Chart.min';
 
 export default async function ({ data }) {
     var ctx = document.querySelector('#multiChoiceQuestionChart');

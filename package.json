@@ -12,7 +12,8 @@
     "live-server": "^1.1.0",
     "q": "^1.4.1",
     "webpack": "^1.13.3",
-    "webpack-traceur-loader": "^0.3.0"
+    "webpack-traceur-loader": "^0.3.0",
+    "webpack-uglify-js-plugin": "^1.1.9"
   },
   "devDependencies": {},
   "repository": {

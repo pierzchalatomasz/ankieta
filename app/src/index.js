@@ -1,6 +1,5 @@
 import Router from './router';
 import State from './state';
-import data from './data';
 import singleChoiceQuestionViewBuilder from './viewBuilders/singleChoiceQuestionViewBuilder';
 import multiChoiceQuestionViewBuilder from './viewBuilders/multiChoiceQuestionViewBuilder';
 import welcomeViewBuilder from './viewBuilders/welcomeViewBuilder';
